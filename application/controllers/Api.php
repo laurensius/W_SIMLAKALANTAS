@@ -273,7 +273,7 @@ class Api extends CI_Controller {
 					if($update_response > 0){
 						$severity = "success";
 						$message = "Update profil berhasil";
-						$data = array();
+						$data = $this->mod_user->user_detail($this->uri->segment(3));
 					}else{
 						$severity = "warning";
 						$message = "Update profil gagal, silakan coba lagi";
