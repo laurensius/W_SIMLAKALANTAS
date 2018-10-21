@@ -149,7 +149,8 @@ class Api extends CI_Controller {
 		$this->input->post('full_name') == null && 
 		$this->input->post('address') == null && 
 		$this->input->post('phone') == null && 
-		$this->input->post('email') == null ){
+		$this->input->post('email') == null && 
+		$this->input->post('kitas') == null){
 			$insert = file_get_contents('php://input');
 			$json = json_decode($insert);
 			if($json == null){
@@ -162,6 +163,7 @@ class Api extends CI_Controller {
 				$address = null;
 				$phone = null;
 				$email = null;
+				$kitas = null;
 			}else{
 				$username = $json->username;
 				$password = $json->password;
@@ -169,6 +171,7 @@ class Api extends CI_Controller {
 				$address = $json->address;
 				$phone = $json->phone;
 				$email = $json->email;
+				$kitas = $json->kitas;
 			}
 		}else{
 			$username = $this->input->post('username');
@@ -177,9 +180,10 @@ class Api extends CI_Controller {
 			$address = $this->input->post('address');
 			$phone = $this->input->post('phone');
 			$email = $this->input->post('email');
+			$kitas = $this->input->post('kitas');
 		}
 		if($username != null && $password != null && $full_name != null && 
-		$address != null && $phone !=null && $email!=null){
+		$address != null && $phone !=null && $email!=null && $kitas!=null){
 			$waktu = date("Y-m-d H:i:s");
 			$data_insert = array(
 				"username" => $username,
@@ -190,7 +194,8 @@ class Api extends CI_Controller {
 				"email" => $email,
 				"is_officer" => "false",
 				"station" => "0",
-				"last_login" => $waktu
+				"last_login" => $waktu,
+				"kitas" => $kitas
 			);
 			$check = $this->mod_user->is_registered($username);
 			if(sizeof($check) > 0){
@@ -581,6 +586,8 @@ class Api extends CI_Controller {
 					"message" => "Load data berhasil",
 					"data" => $select
 				);
+				// $data = array("is_open"=>"1");
+				// $upt = $this->mod_notif->notif_update_open($select[0]->id,$data);
 			}else{
 				$response = array(
 					"severity" => "warning",
@@ -600,6 +607,25 @@ class Api extends CI_Controller {
 
 	public function notif_delete(){ //postman
 		$this->mod_notif->notif_delete($this->uri->segment(3));
+	}
+
+	public function notif_update_open(){ 
+		$data = array("is_open"=>"1");
+		$upt = $this->mod_notif->notif_update_open($this->uri->segment(3),$data);
+		if($upt > 0){
+			$response = array(
+				"severity" => "success",
+				"message" => "update status open berhasil",
+				"data" => array()
+			);
+		}else{
+			$response = array(
+				"severity" => "warning",
+				"message" => "update status open gagal",
+				"data" => array()
+			);
+		}
+		echo json_encode($response,JSON_PRETTY_PRINT);
 	}
 
 //_________________REPORT_________________REPORT_________________REPORT_________________

@@ -26,4 +26,10 @@ class Mod_notif extends CI_Model {
         $this->db->delete('notification');
     }
 
+    function notif_update_open($id,$data){
+        $this->db->where('id', $id);
+        $this->db->update('notification', $data); 
+        return $this->db->affected_rows();
+    }
+
 }

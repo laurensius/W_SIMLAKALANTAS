@@ -42,6 +42,11 @@
                                         <td id="desc"></td>
                                     </tr>
                                     <tr>
+                                        <td>Lampiran Kitas  </td>
+                                        <td>: </td>
+                                        <td id="kitas"></td>
+                                    </tr>
+                                    <tr>
                                         <td colspan="3">
                                         Dari laporan yang disampaikan oleh pelapor tersebut diatas, 
                                         telah dilakukan verifikasi dan tindakan di TKP dengan hasil sbb :
@@ -143,6 +148,7 @@
                             $("#alamat_pelapor").html(response.data[0].address);
                             $("#pada").html(response.data[0].received_at);
                             $("#desc").html(response.data[0].description);
+                            $("#kitas").html('<img src="data:image/jpg;base64,'+response.data[0].kitas+'">');
                             $("#lokasi").html(response.data[0].latitude + " ; " + response.data[0].longitude);
                             $("#kronologi").html(response.data[0].chronology);
                             $("#korban").html(response.data[0].accident_victim);
